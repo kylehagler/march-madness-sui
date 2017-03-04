@@ -9,4 +9,4 @@
 
 # March Madness Sui
 
-March Madness Survivor Pool app built with Vue.js and Laravel
+March Madness Survivor Pool SPA built with Vue.js with a Laravel back end
