@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Pick;
-use App\Team;
+use App\Visible;
 
 class GridController extends Controller
 {
@@ -23,5 +23,6 @@ class GridController extends Controller
     {
         $users = User::with('picks')->get();  
         return $users; 
+    
     }
 }

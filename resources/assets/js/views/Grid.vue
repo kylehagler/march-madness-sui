@@ -8,7 +8,7 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th><abbr title="Name">Name</abbr></th>
+                      <th><abbr title="Name"></abbr></th>
                       <th>Thu (64)</th>
                       <th>Thu (64)</th>
                       <th>Fri (64)</th>
@@ -25,7 +25,7 @@
                   </thead>
                   <tfoot>
                     <tr>
-                      <th><abbr title="Name">Name</abbr></th>
+                      <th><abbr title="Name"></abbr></th>
                       <th>Thu (64)</th>
                       <th>Thu (64)</th>
                       <th>Fri (64)</th>
@@ -42,8 +42,8 @@
                   </tfoot>
                   <tbody>
                     <tr v-for="user in users">
-                      <th>{{user.name}}</th>
-                      <td v-for="team in user.picks">{{team.team_name}}</td>
+                      <th style="text-align: left;">{{user.name}}</th>
+                      <td v-for="pick in user.picks"><span v-bind:class="{ winner: pick.result === 1, loser: pick.result === 0 }" v-if="pick.is_visible">{{pick.team_name}}</span></td>
                     </tr>
                   </tbody>
                 </table>
@@ -60,6 +60,7 @@
         data() {
             return {    
                 users: [],
+                visible_slots: [],
                 loading: true,
                 color: '#3273dc'
             }  
@@ -73,10 +74,13 @@
             
             axios.get('/users')
                 .then(function(response) {
+                    
                     vm.users = response.data;
+                    
                     setTimeout(function() {
                         vm.loading = false;
                     }, 200);
+                    
                 });  
         }
     }

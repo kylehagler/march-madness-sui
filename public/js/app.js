@@ -4279,6 +4279,7 @@ exports.default = {
     data: function data() {
         return {
             users: [],
+            visible_slots: [],
             loading: true,
             color: '#3273dc'
         };
@@ -4292,7 +4293,9 @@ exports.default = {
         var vm = this;
 
         axios.get('/users').then(function (response) {
+
             vm.users = response.data;
+
             setTimeout(function () {
                 vm.loading = false;
             }, 200);
@@ -4400,6 +4403,8 @@ exports.default = {
 
         axios.all([getAvailableTeams(), getUsedTeams()]).then(axios.spread(function (available, used) {
             vm.availableTeams = available.data;
+            console.log(available.data);
+
             vm.usedTeams = used.data;
             setTimeout(function () {
                 vm.loading = false;
@@ -4691,9 +4696,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "title": "Name"
     }
-  }, [_vm._v("Name")])]), _vm._v(" "), _c('th', [_vm._v("Thu (64)")]), _vm._v(" "), _c('th', [_vm._v("Thu (64)")]), _vm._v(" "), _c('th', [_vm._v("Fri (64)")]), _vm._v(" "), _c('th', [_vm._v("Fri (64)")]), _vm._v(" "), _c('th', [_vm._v("Sat (32)")]), _vm._v(" "), _c('th', [_vm._v("Sun (32)")]), _vm._v(" "), _c('th', [_vm._v("Thu (16)")]), _vm._v(" "), _c('th', [_vm._v("Fri (16)")]), _vm._v(" "), _c('th', [_vm._v("Sat (8)")]), _vm._v(" "), _c('th', [_vm._v("Sun (8)")]), _vm._v(" "), _c('th', [_vm._v("Sat (4)")]), _vm._v(" "), _c('th', [_vm._v("Mon (2)")])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.users), function(user) {
-    return _c('tr', [_c('th', [_vm._v(_vm._s(user.name))]), _vm._v(" "), _vm._l((user.picks), function(team) {
-      return _c('td', [_vm._v(_vm._s(team.team_name))])
+  })]), _vm._v(" "), _c('th', [_vm._v("Thu (64)")]), _vm._v(" "), _c('th', [_vm._v("Thu (64)")]), _vm._v(" "), _c('th', [_vm._v("Fri (64)")]), _vm._v(" "), _c('th', [_vm._v("Fri (64)")]), _vm._v(" "), _c('th', [_vm._v("Sat (32)")]), _vm._v(" "), _c('th', [_vm._v("Sun (32)")]), _vm._v(" "), _c('th', [_vm._v("Thu (16)")]), _vm._v(" "), _c('th', [_vm._v("Fri (16)")]), _vm._v(" "), _c('th', [_vm._v("Sat (8)")]), _vm._v(" "), _c('th', [_vm._v("Sun (8)")]), _vm._v(" "), _c('th', [_vm._v("Sat (4)")]), _vm._v(" "), _c('th', [_vm._v("Mon (2)")])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.users), function(user) {
+    return _c('tr', [_c('th', {
+      staticStyle: {
+        "text-align": "left"
+      }
+    }, [_vm._v(_vm._s(user.name))]), _vm._v(" "), _vm._l((user.picks), function(pick) {
+      return _c('td', [(pick.is_visible) ? _c('span', {
+        class: {
+          winner: pick.result === 1, loser: pick.result === 0
+        }
+      }, [_vm._v(_vm._s(pick.team_name))]) : _vm._e()])
     })], 2)
   }))], 1)])], 1)])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -4701,7 +4714,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "title": "Name"
     }
-  }, [_vm._v("Name")])]), _vm._v(" "), _c('th', [_vm._v("Thu (64)")]), _vm._v(" "), _c('th', [_vm._v("Thu (64)")]), _vm._v(" "), _c('th', [_vm._v("Fri (64)")]), _vm._v(" "), _c('th', [_vm._v("Fri (64)")]), _vm._v(" "), _c('th', [_vm._v("Sat (32)")]), _vm._v(" "), _c('th', [_vm._v("Sun (32)")]), _vm._v(" "), _c('th', [_vm._v("Thu (16)")]), _vm._v(" "), _c('th', [_vm._v("Fri (16)")]), _vm._v(" "), _c('th', [_vm._v("Sat (8)")]), _vm._v(" "), _c('th', [_vm._v("Sun (8)")]), _vm._v(" "), _c('th', [_vm._v("Sat (4)")]), _vm._v(" "), _c('th', [_vm._v("Mon (2)")])])])
+  })]), _vm._v(" "), _c('th', [_vm._v("Thu (64)")]), _vm._v(" "), _c('th', [_vm._v("Thu (64)")]), _vm._v(" "), _c('th', [_vm._v("Fri (64)")]), _vm._v(" "), _c('th', [_vm._v("Fri (64)")]), _vm._v(" "), _c('th', [_vm._v("Sat (32)")]), _vm._v(" "), _c('th', [_vm._v("Sun (32)")]), _vm._v(" "), _c('th', [_vm._v("Thu (16)")]), _vm._v(" "), _c('th', [_vm._v("Fri (16)")]), _vm._v(" "), _c('th', [_vm._v("Sat (8)")]), _vm._v(" "), _c('th', [_vm._v("Sun (8)")]), _vm._v(" "), _c('th', [_vm._v("Sat (4)")]), _vm._v(" "), _c('th', [_vm._v("Mon (2)")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

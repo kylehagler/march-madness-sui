@@ -87,6 +87,8 @@
             axios.all([getAvailableTeams(), getUsedTeams()])
               .then(axios.spread(function (available, used) {
                 vm.availableTeams = available.data;
+                console.log(available.data);
+                
                 vm.usedTeams = used.data;
                 setTimeout(function() {
                     vm.loading = false;

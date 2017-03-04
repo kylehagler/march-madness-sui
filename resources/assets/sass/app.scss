@@ -9,6 +9,35 @@ body {
 		margin: 0 auto;
 	}
 	
+	.tag.is-info {
+		margin-right: 2px;
+	}
+	
+	th {
+		text-align: center;
+	}
+	
+	td {
+		text-align: center;
+		
+		span {
+			font-size: 12px;
+			font-weight: bold;
+			
+			&.winner {
+				background: #23d160;
+			    color: #fff;
+			    padding: 3px 10px;
+			    border-radius: 15px;
+			}
+			
+			&.loser {
+				color: #ff3860;
+				text-decoration: line-through;
+			}
+		}
+	}
+	
 	.tabs.is-boxed a {
 		color: #fff;
 		

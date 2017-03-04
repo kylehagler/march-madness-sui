@@ -21,8 +21,12 @@ Route::get('/users', function () {
     return App\User::get();
 });
 
+
+// Make Picks Page
+Route::get('/available-teams/{user_id}', 'AvailableController@index');
+Route::get('/used-teams/{user_id}', 'AvailableController@used');
+
+// Grid Page
 Route::get('/users', 'GridController@index');
 
-Route::get('/available-teams/{user_id}', 'AvailableController@index');
 
-Route::get('/used-teams/{user_id}', 'AvailableController@used');
