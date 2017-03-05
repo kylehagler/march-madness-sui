@@ -9,6 +9,10 @@ body {
 		margin: 0 auto;
 	}
 	
+	.notification {
+		text-align: center;
+	}
+	
 	.tag.is-info {
 		margin-right: 2px;
 	}
@@ -66,12 +70,17 @@ body {
 		border-color: #3273dc; 
 	}
 	
-	.card-footer-item {
-		background: #f9f9f9;
-		color: #3273dc;
+	.card-footer {
+		padding: 10px;
 		
-		&:hover {
-			background: #f7f7f7;
+		#savePicksBtn {
+			display: block;
+			width: 100%;
+			
+			i {
+				position: relative;
+				top: 11px;
+			}
 		}
 	}
 	

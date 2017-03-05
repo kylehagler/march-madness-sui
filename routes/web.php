@@ -23,7 +23,8 @@ Route::get('/users', function () {
 
 
 // Make Picks Page
-Route::get('/available-teams/{user_id}', 'AvailableController@index');
+Route::get('/get-open-day', 'AvailableController@index');
+Route::get('/available-teams/{user_id}', 'AvailableController@available');
 Route::get('/used-teams/{user_id}', 'AvailableController@used');
 
 // Grid Page
