@@ -27,6 +27,8 @@ Route::get('/get-open-day', 'AvailableController@index');
 Route::get('/available-teams/{user_id}', 'AvailableController@available');
 Route::get('/used-teams/{user_id}', 'AvailableController@used');
 
+Route::post('/save-picks/{user_id}', 'PicksController@savePicks');
+
 // Grid Page
 Route::get('/users', 'GridController@index');
 

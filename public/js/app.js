@@ -4266,7 +4266,7 @@ exports.default = {
 /* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+				value: true
 });
 //
 //
@@ -4325,79 +4325,145 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 exports.default = {
-    data: function data() {
-        return {
-            openDay: null,
-            availableTeams: [],
-            usedTeams: [],
-            pick1: 'Pick #1',
-            pick2: 'Pick #2',
-            isError: false,
-            isSuccess: false,
-            errorMessage: null,
-            successMessage: null
-        };
-    },
-    created: function created() {
-        // TO-DO: this will take the logged in User ID
-        // check if user has been eliminated
+				data: function data() {
+								return {
+												openDay: null,
+												availableTeams: [],
+												usedTeams: [],
+												pick1: 'Pick #1',
+												pick2: 'Pick #2',
+												isError: false,
+												isSuccess: false,
+												errorMessage: null,
+												successMessage: null
+								};
+				},
+				created: function created() {
+								// TO-DO: this will take the logged in User ID
+								// check if user has been eliminated
 
-        var vm = this;
+								var vm = this;
 
-        function getOpenDay() {
-            return axios.get('/get-open-day');
-        }
+								function getOpenDay() {
+												return axios.get('/get-open-day');
+								}
 
-        function getAvailableTeams() {
-            return axios.get('/available-teams/1');
-        }
+								function getAvailableTeams() {
+												return axios.get('/available-teams/1');
+								}
 
-        function getUsedTeams() {
-            return axios.get('/used-teams/1');
-        }
+								function getUsedTeams() {
+												return axios.get('/used-teams/1');
+								}
 
-        axios.all([getOpenDay(), getAvailableTeams(), getUsedTeams()]).then(axios.spread(function (open, available, used) {
-            vm.openDay = open.data.day;
-            vm.availableTeams = available.data;
+								axios.all([getOpenDay(), getAvailableTeams(), getUsedTeams()]).then(axios.spread(function (open, available, used) {
+												vm.openDay = open.data.day;
+												vm.availableTeams = available.data;
 
-            vm.usedTeams = used.data;
-            setTimeout(function () {
-                vm.$emit('finished');
-            }, 200);
-        }));
-    },
+												vm.usedTeams = used.data;
+												setTimeout(function () {
+																vm.$emit('finished');
+												}, 200);
+								}));
+				},
 
-    methods: {
-        savePicks: function savePicks() {
+				methods: {
+								savePicks: function savePicks() {
 
-            $('#savePicksBtn').addClass('is-loading');
+												$('#savePicksBtn').addClass('is-loading');
 
-            if (this.openDay === 'Thursday (64)' || this.openDay === 'Friday (64)') {
-                // check if both picks made
-                if (this.pick1 === 'Pick #1' || this.pick2 === 'Pick #2') {
-                    this.errorMessage = "You didn't make all your picks. Kill yourself.";
-                    this.isError = true;
-                    $('#savePicksBtn').removeClass('is-loading');
-                } else if (this.pick1 === this.pick2) {
-                    // check if picks are the same team
-                    this.errorMessage = "You can't pick the same team twice. Kill yourself.";
-                    this.isError = true;
-                    $('#savePicksBtn').removeClass('is-loading');
-                } else {
-                    // save the picks
-                    var vm = this;
+												// if two picks (Thurs/Fri rd. 1)
+												if (this.openDay === 'Thursday (64)' || this.openDay === 'Friday (64)') {
+																// check if both picks made
+																if (this.pick1 === 'Pick #1' || this.pick2 === 'Pick #2') {
+																				this.isSuccess = false;
+																				this.successMessage = null;
+																				this.errorMessage = "You didn't make all your picks. Kill yourself.";
+																				this.isError = true;
+																				$('#savePicksBtn').removeClass('is-loading');
+																} else if (this.pick1 === this.pick2) {
+																				// check if picks are the same team
+																				this.isSuccess = false;
+																				this.successMessage = null;
+																				this.errorMessage = "You can't pick the same team twice. Kill yourself.";
+																				this.isError = true;
+																				$('#savePicksBtn').removeClass('is-loading');
+																} else {
+																				// save the picks
+																				var vm = this;
 
-                    setTimeout(function () {
-                        vm.errorMessage = null;
-                        vm.isError = false;
-                        vm.isSuccess = true;
-                        vm.successMessage = "Your picks were saved successfully.";
-                        $('#savePicksBtn').removeClass('is-loading');
-                    }, 200);
-                }
-            }
-        }
-    }
+																				if (this.openDay === 'Thursday (64)') {
+																								var slot1 = 1;
+																								var slot2 = 2;
+																				} else if (this.openDay === 'Friday (64)') {
+																								var slot1 = 3;
+																								var slot2 = 4;
+																				}
+
+																				// TO-DO pass the logged in user ID
+																				axios.post('/save-picks/1', {
+																								pick1: this.pick1,
+																								pick2: this.pick2,
+																								slot1: slot1,
+																								slot2: slot2
+																				}).then(function (response) {
+																								console.log(response);
+																								vm.errorMessage = null;
+																								vm.isError = false;
+																								vm.isSuccess = true;
+																								vm.successMessage = "Your picks were saved successfully.";
+																								$('#savePicksBtn').removeClass('is-loading');
+																				}).catch(function (error) {
+																								console.log(error);
+																				});
+																}
+												} else {
+																var vm = this;
+																var slot1;
+
+																switch (this.openDay) {
+																				case 'Saturday (32)':
+																								slot1 = 5;
+																								break;
+																				case 'Sunday (32)':
+																								slot1 = 6;
+																								break;
+																				case 'Thursday (16)':
+																								slot1 = 7;
+																								break;
+																				case 'Friday (16)':
+																								slot1 = 8;
+																								break;
+																				case 'Saturday (8)':
+																								slot1 = 9;
+																								break;
+																				case 'Sunday (8)':
+																								slot1 = 10;
+																								break;
+																				case 'Saturday (4)':
+																								slot1 = 11;
+																								break;
+																				case 'Monday (2)':
+																								slot1 = 12;
+																								break;
+																}
+
+																axios.post('/save-picks/1', {
+																				pick1: this.pick1,
+																				slot1: slot1
+																}).then(function (response) {
+																				console.log(response);
+																				vm.errorMessage = null;
+																				vm.isError = false;
+																				vm.isSuccess = true;
+																				vm.successMessage = "Your picks were saved successfully.";
+																				$('#savePicksBtn').removeClass('is-loading');
+																}).catch(function (error) {
+																				console.log(error);
+																});
+												}
+								}
+				}
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(39)))
 
